@@ -19,6 +19,11 @@
 		8E81229925F3B81F00BE0448 /* CompassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E81229825F3B81F00BE0448 /* CompassView.swift */; };
 		8E81229E25F3FC2400BE0448 /* CompasViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E81229D25F3FC2400BE0448 /* CompasViewModel.swift */; };
 		8EDFD33125FCB5FB00C619B5 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 8EDFD33025FCB5FB00C619B5 /* ComposableArchitecture */; };
+		8EDFD33A25FCB67100C619B5 /* NavigationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDFD33925FCB67100C619B5 /* NavigationItem.swift */; };
+		8EDFD33F25FCB6D000C619B5 /* NavigationAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDFD33E25FCB6D000C619B5 /* NavigationAction.swift */; };
+		8EDFD34425FCB76D00C619B5 /* NavigationItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDFD34325FCB76D00C619B5 /* NavigationItemViewController.swift */; };
+		8EDFD34925FCB95D00C619B5 /* RoutingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDFD34825FCB95D00C619B5 /* RoutingView.swift */; };
+		8EDFD34E25FCBE3900C619B5 /* NavigationReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDFD34D25FCBE3900C619B5 /* NavigationReducer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +61,11 @@
 		8E50CEA225F3885500346C08 /* NewTripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTripView.swift; sourceTree = "<group>"; };
 		8E81229825F3B81F00BE0448 /* CompassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassView.swift; sourceTree = "<group>"; };
 		8E81229D25F3FC2400BE0448 /* CompasViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompasViewModel.swift; sourceTree = "<group>"; };
+		8EDFD33925FCB67100C619B5 /* NavigationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationItem.swift; sourceTree = "<group>"; };
+		8EDFD33E25FCB6D000C619B5 /* NavigationAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationAction.swift; sourceTree = "<group>"; };
+		8EDFD34325FCB76D00C619B5 /* NavigationItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationItemViewController.swift; sourceTree = "<group>"; };
+		8EDFD34825FCB95D00C619B5 /* RoutingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingView.swift; sourceTree = "<group>"; };
+		8EDFD34D25FCBE3900C619B5 /* NavigationReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationReducer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +119,7 @@
 			children = (
 				8EDFD33525FCB60200C619B5 /* Navigation */,
 				8E50CE9E25F3881C00346C08 /* Screens */,
+				8EDFD35225FCC01E00C619B5 /* State */,
 				8E50CE6B25F3828B00346C08 /* AppDelegate.swift */,
 				8E50CE6D25F3828B00346C08 /* SceneDelegate.swift */,
 				8E50CE6F25F3828B00346C08 /* ContentView.swift */,
@@ -159,8 +170,20 @@
 		8EDFD33525FCB60200C619B5 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
+				8EDFD33925FCB67100C619B5 /* NavigationItem.swift */,
+				8EDFD33E25FCB6D000C619B5 /* NavigationAction.swift */,
+				8EDFD34325FCB76D00C619B5 /* NavigationItemViewController.swift */,
+				8EDFD34825FCB95D00C619B5 /* RoutingView.swift */,
+				8EDFD34D25FCBE3900C619B5 /* NavigationReducer.swift */,
 			);
 			path = Navigation;
+			sourceTree = "<group>";
+		};
+		8EDFD35225FCC01E00C619B5 /* State */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = State;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -304,7 +327,12 @@
 				8E50CE6C25F3828B00346C08 /* AppDelegate.swift in Sources */,
 				8E81229925F3B81F00BE0448 /* CompassView.swift in Sources */,
 				8E50CE6E25F3828B00346C08 /* SceneDelegate.swift in Sources */,
+				8EDFD34E25FCBE3900C619B5 /* NavigationReducer.swift in Sources */,
+				8EDFD34425FCB76D00C619B5 /* NavigationItemViewController.swift in Sources */,
+				8EDFD33A25FCB67100C619B5 /* NavigationItem.swift in Sources */,
+				8EDFD34925FCB95D00C619B5 /* RoutingView.swift in Sources */,
 				8E50CE7025F3828B00346C08 /* ContentView.swift in Sources */,
+				8EDFD33F25FCB6D000C619B5 /* NavigationAction.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
