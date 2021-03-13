@@ -15,6 +15,9 @@
 		8E50CE7825F3829700346C08 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E50CE7625F3829700346C08 /* LaunchScreen.storyboard */; };
 		8E50CE8325F3829700346C08 /* TriperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50CE8225F3829700346C08 /* TriperTests.swift */; };
 		8E50CE8E25F3829700346C08 /* TriperUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50CE8D25F3829700346C08 /* TriperUITests.swift */; };
+		8E50CEA325F3885500346C08 /* NewTripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50CEA225F3885500346C08 /* NewTripView.swift */; };
+		8E81229925F3B81F00BE0448 /* CompassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E81229825F3B81F00BE0448 /* CompassView.swift */; };
+		8E81229E25F3FC2400BE0448 /* CompasViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E81229D25F3FC2400BE0448 /* CompasViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +52,9 @@
 		8E50CE8925F3829700346C08 /* TriperUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TriperUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E50CE8D25F3829700346C08 /* TriperUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriperUITests.swift; sourceTree = "<group>"; };
 		8E50CE8F25F3829700346C08 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8E50CEA225F3885500346C08 /* NewTripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTripView.swift; sourceTree = "<group>"; };
+		8E81229825F3B81F00BE0448 /* CompassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassView.swift; sourceTree = "<group>"; };
+		8E81229D25F3FC2400BE0448 /* CompasViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompasViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +105,7 @@
 		8E50CE6A25F3828B00346C08 /* Triper */ = {
 			isa = PBXGroup;
 			children = (
+				8E50CE9E25F3881C00346C08 /* Screens */,
 				8E50CE6B25F3828B00346C08 /* AppDelegate.swift */,
 				8E50CE6D25F3828B00346C08 /* SceneDelegate.swift */,
 				8E50CE6F25F3828B00346C08 /* ContentView.swift */,
@@ -134,6 +141,16 @@
 				8E50CE8F25F3829700346C08 /* Info.plist */,
 			);
 			path = TriperUITests;
+			sourceTree = "<group>";
+		};
+		8E50CE9E25F3881C00346C08 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				8E50CEA225F3885500346C08 /* NewTripView.swift */,
+				8E81229825F3B81F00BE0448 /* CompassView.swift */,
+				8E81229D25F3FC2400BE0448 /* CompasViewModel.swift */,
+			);
+			path = Screens;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -266,7 +283,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E50CEA325F3885500346C08 /* NewTripView.swift in Sources */,
+				8E81229E25F3FC2400BE0448 /* CompasViewModel.swift in Sources */,
 				8E50CE6C25F3828B00346C08 /* AppDelegate.swift in Sources */,
+				8E81229925F3B81F00BE0448 /* CompassView.swift in Sources */,
 				8E50CE6E25F3828B00346C08 /* SceneDelegate.swift in Sources */,
 				8E50CE7025F3828B00346C08 /* ContentView.swift in Sources */,
 			);
@@ -366,7 +386,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -421,7 +441,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
