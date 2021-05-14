@@ -6,24 +6,23 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
+import ComposableNavigator
 
 struct ContentView: View {
+	let dataSource: Navigator.Datasource = Navigator.Datasource(root: HomeScreen())
+	let navigator: Navigator
+	let appStore: Store<AppState, AppAction>
+	init() {
+		navigator = Navigator(dataSource: dataSource).debug()
+		appStore = Store(initialState: AppState(), reducer: appReducer, environment: AppEnvironment(navigator: navigator))
+	}
     var body: some View {
-		VStack(alignment: .leading) {
-			HStack {
-				Spacer()
-				CompassView()
-					.padding()
-				Spacer()
-			}
-			CompassView()
-			CompassView()
-			CompassView()
-				.padding()
-			CompassView()
-				.padding()
-
-		}
+		Root(
+			dataSource: dataSource,
+			navigator: navigator,
+			pathBuilder: HomeScreen.Builder(appStore: appStore)
+		)
     }
 }
 

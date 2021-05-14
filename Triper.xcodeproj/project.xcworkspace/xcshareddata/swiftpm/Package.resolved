@@ -27,6 +27,15 @@
           "revision": "a116fff6d4dbbad7c17308edf04e40a50b74e088",
           "version": "0.16.0"
         }
+      },
+      {
+        "package": "swift-composable-navigator",
+        "repositoryURL": "https://github.com/Bahn-X/swift-composable-navigator.git",
+        "state": {
+          "branch": null,
+          "revision": "5ded07ef3788e84e4fbb83f64b620b4b7b3fdaff",
+          "version": "0.1.0"
+        }
       }
     ]
   },
