@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PlaceSelectionView: View {
 	
+	@Environment(\.presentationMode) var presentationMode
 	@State var showAddress = false
 	@ObservedObject var viewModel: PlaceSelectionViewModel
 	
@@ -71,7 +72,10 @@ struct PlaceSelectionView: View {
 				.navigationBarTitle("New Place")
 			}
 			Spacer()
-			Button(action: viewModel.savePlace) {
+			Button(action: {
+				viewModel.savePlace()
+				presentationMode.wrappedValue.dismiss()
+			}) {
 				HStack {
 					Spacer()
 					Text("Add Place ➕")

@@ -6,8 +6,6 @@
 //
 
 import SwiftUI
-import ComposableNavigator
-import ComposableArchitecture
 
 struct NewTripView: View {
 	

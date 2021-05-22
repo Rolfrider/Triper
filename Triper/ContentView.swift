@@ -6,8 +6,6 @@
 //
 
 import SwiftUI
-import ComposableArchitecture
-import ComposableNavigator
 
 
 struct ContentView: View {
