@@ -39,7 +39,6 @@ class LocationSearchService: NSObject, ObservableObject, MKLocalSearchCompleterD
 	
 	func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
 		self.completions = completer.results
-
 	}
 }
 

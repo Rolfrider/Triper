@@ -10,34 +10,35 @@ import ComposableNavigator
 import ComposableArchitecture
 
 struct NewTripView: View {
-	let store: Store<NewTripState, NewTripAction>
 	
+	@StateObject var viewModel = NewTripViewModel()
+	@State var placeSelection = false
     var body: some View {
-		WithViewStore(store) { viewStore in
+		NavigationView {
 			ZStack {
 				Color(.systemBackground)
 				VStack(alignment: .leading, spacing: 0) {
 					HStack {
-						Text("Places: \(viewStore.state.placesToShow.count)")
+						Text("Places: \(viewModel.places.count)")
 							.font(.largeTitle)
 							.bold()
 							.foregroundColor(Color(.label).opacity(0.6))
 						Spacer()
-						Button("+") { viewStore.send(.addPlaceTapped) }
+						Button("+") { self.placeSelection = true }
 							.font(.largeTitle)
 					}
-					List(viewStore.state.placesToShow, id: \.id) { place in
+					List(viewModel.places, id: \.id) { place in
 						HStack {
 							Text (place.name)
 							Spacer()
-							if viewStore.state.startPlaceId == place.id {
+							if viewModel.startPlaceId == place.id {
 								Text("🏁")
 							}
 						}
 					}
 					PlacePreviewView()
 					Spacer(minLength: 16)
-					Button(action: { viewStore.send(.planTrip) }) {
+					Button(action: viewModel.planTrip) {
 						HStack {
 							Spacer()
 							Text("Plan my trip")
@@ -51,14 +52,13 @@ struct NewTripView: View {
 						.cornerRadius(18)
 					}
 				}.padding([.horizontal, .bottom])
-			}
+			}.navigationBarTitle("New Trip")
+			.sheet(isPresented: $placeSelection, content: {
+				PlaceSelectionView(viewModel: PlaceSelectionViewModel(addPlaceCallback: viewModel.addPlace(place:)))
+			})
 		}
+		
     }
-}
-
-fileprivate extension NewTripState {
-	var placesToShow: [Place] { places.filter { $0.id != placeToDiscardId } }
-	
 }
 
 //struct NewTripView_Previews: PreviewProvider {

@@ -6,16 +6,21 @@
 //
 
 import Foundation
+import CoreLocation
+
 struct Place: Equatable, Identifiable, Hashable {
-	var name = ""
+	let name: String
 	let id: UUID
-	var country: Country = countries[0]
+	var country: Country
+	let placeMark: CLPlacemark
 }
 
 let countries: [Country] = NSLocale.isoCountryCodes.compactMap {
 	let flag = String.emojiFlag(for: $0)
 	let id = NSLocale.localeIdentifier(fromComponents: [NSLocale.Key.countryCode.rawValue : $0])
-	if let name = NSLocale(localeIdentifier: "en_UK").displayName(forKey: NSLocale.Key.identifier, value: id) {
+	let s = NSLocale(localeIdentifier: Locale.current.languageCode!)
+	if let languageCode = Locale.current.languageCode,
+	   let name = NSLocale(localeIdentifier: languageCode).displayName(forKey: NSLocale.Key.identifier, value: id) {
 		return Country(isoCountryCode: $0, name: name, flagEmoji: flag)
 	} else { return nil }
 }

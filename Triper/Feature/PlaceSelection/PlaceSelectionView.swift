@@ -6,40 +6,112 @@
 //
 
 import SwiftUI
-import ComposableNavigator
-import ComposableArchitecture
 
 struct PlaceSelectionView: View {
-	@Environment(\.currentScreenID) var currentScreenID
-	let store: Store<Place, PlaceSelectionAction>
-	@ObservedObject var locationCompleter = LocationSearchService()
 	
-    var body: some View {
-		WithViewStore(store) { viewStore in
-//			NavigationView {
-			ScrollView {
-				Picker(
-					"Country",
-					selection: viewStore.binding(keyPath: \.country, send: PlaceSelectionAction.binding)) {
-					ForEach(countries, id: \.self) {
-						Text("\($0.flagEmoji ?? "") \($0.name)")
+	@State var showAddress = false
+	@ObservedObject var viewModel: PlaceSelectionViewModel
+	
+	var body: some View {
+		VStack {
+			NavigationView {
+				Form {
+					Section {
+						viewModel.country.map {
+							CountryView(country: $0) {
+								withAnimation {
+									viewModel.state = .country
+								}
+								print("country tap")
+							}
+						}
+						if viewModel.country != nil {
+							Button("Place: \(viewModel.name)") {
+								withAnimation {
+									viewModel.state = .place
+								}
+								print("place tap")
+							}
+						}
+					}
+					if viewModel.state != .hideSearch {
+						Section(header: Text(viewModel.state.name)) {
+							SearchBar(text: $viewModel.searchQuery)
+							List(viewModel.completions, id: \.title) { completion in
+								Button(action: {
+									withAnimation { viewModel.searchResultTapped(result: completion) }
+								}) {
+									VStack(alignment: .leading) {
+										Text(completion.title)
+										Text(completion.subtitle)
+											.font(.subheadline)
+											.foregroundColor(.gray)
+									}
+								}
+							}
+						}
+					}
+					if viewModel.state == .hideSearch {
+						Section(header: Text("Address details")) {
+							let placemark = viewModel.placemark
+							placemark?.administrativeArea.map {
+								Text("Province: \($0)")
+							}
+							placemark?.locality.map {
+								Text("City: \($0)")
+							}
+							placemark?.thoroughfare.map {
+								Text("Street: \($0)")
+							}
+							
+						}
 					}
 				}
-				SearchBar(text: $locationCompleter.searchQuery)
-				List(locationCompleter.completions) { completion in
-					VStack(alignment: .leading) {
-						Text(completion.title)
-						Text(completion.subtitle)
-							.font(.subheadline)
-							.foregroundColor(.gray)
-					}
-				}
+				.transition(.opacity)
+				.navigationBarTitle("New Place")
 			}
-			.navigationBarTitle("New Place", displayMode: .inline)
+			Spacer()
+			Button(action: viewModel.savePlace) {
+				HStack {
+					Spacer()
+					Text("Add Place ➕")
+						.font(.headline)
+						.foregroundColor(Color(.label))
+					Spacer()
+				}
+				.padding()
+				.background(Color(.systemFill))
+				.cornerRadius(12)
+				.padding(.horizontal)
+			}
 		}
+		.loadingOverlay(viewModel.isLoading)
 	}
 }
 
+extension PlaceSelectionViewModel.PlaceSelectionState {
+	var name: String {
+		switch self {
+		case .country: return "Select Country"
+		case .place: return "Find Place"
+		case .hideSearch: return ""
+		}
+	}
+}
+struct CountryView: View {
+	let country: Country
+	let tapCallback: () -> Void
+	
+	var body: some View {
+		Button(action: tapCallback) {
+			HStack {
+				Text(country.name)
+				Spacer()
+				country.flagEmoji.map(Text.init)
+			}
+		}
+	}
+}
 //struct PlaceSelectionView_Previews: PreviewProvider {
 //    static var previews: some View {
 ////        PlaceSelectionView()

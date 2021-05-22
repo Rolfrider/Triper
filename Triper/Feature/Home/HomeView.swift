@@ -10,37 +10,38 @@ import ComposableArchitecture
 import SwiftUI
 
 struct HomeView: View {
-	let store: Store<HomeState, HomeAction>
+	
+	@State var tab = Tab.newTrip
 	
 	var body: some View {
-		WithViewStore(store) { viewStore in
-			TabView(selection: Binding(
-						get: { viewStore.tab },
-						set: { viewStore.send(.set($0)) })
-			) {
-				TripsView()
-					.tabItem {
-						Image(systemName: "list.bullet")
-						Text(Tab.trips.name)
-					}
-					.tag(Tab.trips)
-				NewTripView(store: store.scope(state: \.newTrip, action: HomeAction.newTrip))
-					.tabItem {
-						Image(systemName: "map")
-						Text(Tab.newTrip.name)
-					}
-					.tag(Tab.newTrip)
-				MyTripsView()
-					.tabItem {
-						Image(systemName: "heart")
-						Text(Tab.myTrips.name)
-					}
-					.tag(Tab.myTrips)
-			}
-			.navigationTitle(viewStore.tab.name)
+		TabView(selection: $tab) {
+			TripsView()
+				.tabItem {
+					Image(systemName: "list.bullet")
+					Text(Tab.trips.name)
+				}
+				.tag(Tab.trips)
+			NewTripView()
+				.tabItem {
+					Image(systemName: "map")
+					Text(Tab.newTrip.name)
+				}
+				.tag(Tab.newTrip)
+			MyTripsView()
+				.tabItem {
+					Image(systemName: "heart")
+					Text(Tab.myTrips.name)
+				}
+				.tag(Tab.myTrips)
 		}
 		
 	}
+}
+
+enum Tab {
+	case trips
+	case newTrip
+	case myTrips
 }
 
 extension Tab {
