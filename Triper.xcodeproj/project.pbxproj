@@ -17,6 +17,7 @@
 		8E50CE7825F3829700346C08 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E50CE7625F3829700346C08 /* LaunchScreen.storyboard */; };
 		8E50CE8325F3829700346C08 /* TriperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50CE8225F3829700346C08 /* TriperTests.swift */; };
 		8E50CE8E25F3829700346C08 /* TriperUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50CE8D25F3829700346C08 /* TriperUITests.swift */; };
+		8E5B2EC1265AC6DF00D3032A /* VistiOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5B2EC0265AC6DF00D3032A /* VistiOrder.swift */; };
 		8E81229925F3B81F00BE0448 /* CompassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E81229825F3B81F00BE0448 /* CompassView.swift */; };
 		8E81229E25F3FC2400BE0448 /* CompasViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E81229D25F3FC2400BE0448 /* CompasViewModel.swift */; };
 		8E8E0871264DA74A00AD0170 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8E0870264DA74A00AD0170 /* LocationService.swift */; };
@@ -68,6 +69,7 @@
 		8E50CE8925F3829700346C08 /* TriperUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TriperUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E50CE8D25F3829700346C08 /* TriperUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriperUITests.swift; sourceTree = "<group>"; };
 		8E50CE8F25F3829700346C08 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8E5B2EC0265AC6DF00D3032A /* VistiOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VistiOrder.swift; sourceTree = "<group>"; };
 		8E81229825F3B81F00BE0448 /* CompassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassView.swift; sourceTree = "<group>"; };
 		8E81229D25F3FC2400BE0448 /* CompasViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompasViewModel.swift; sourceTree = "<group>"; };
 		8E8E0870264DA74A00AD0170 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 				8E8E0875264EEFAC00AD0170 /* SearchBar.swift */,
 				8E8E08912658EF1C00AD0170 /* PlaceSelectionViewModel.swift */,
 				8EA162712659312500857FC2 /* CompassLoading.swift */,
+				8E5B2EC0265AC6DF00D3032A /* VistiOrder.swift */,
 			);
 			path = PlaceSelection;
 			sourceTree = "<group>";
@@ -410,6 +413,7 @@
 				8E50CE6E25F3828B00346C08 /* SceneDelegate.swift in Sources */,
 				8EA162722659312500857FC2 /* CompassLoading.swift in Sources */,
 				8E50CE7025F3828B00346C08 /* ContentView.swift in Sources */,
+				8E5B2EC1265AC6DF00D3032A /* VistiOrder.swift in Sources */,
 				8E8E0871264DA74A00AD0170 /* LocationService.swift in Sources */,
 				8E2CA7DB26190CD30009D572 /* Place.swift in Sources */,
 				8EA080A22610B99200C85F54 /* PlacesCollectionLayout.swift in Sources */,
