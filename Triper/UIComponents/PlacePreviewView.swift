@@ -8,32 +8,39 @@
 import SwiftUI
 
 struct PlacePreviewView: View {
+	let place: Place
+	let isFirstPlace: Bool
+	let onDelete: (UUID) -> ()
+	let firstPlaceTapped: (UUID) -> ()
+	
 	var body: some View {
-		HStack {
-			Spacer()
-			Text("🇿🇦")
-				.font(.largeTitle)
-			VStack(alignment: .leading) {
-				Text("Museum Twojej Starej")
-					.font(.headline)
-					.lineLimit(1)
-				Text("Polska")
-					.font(.subheadline)
-					.lineLimit(1)
-				Text("Chciałbym zobaczyć jak gruba jest twoja stara")
-					.font(.body)
-					.lineLimit(2)
+		VStack(spacing: 16) {
+			HStack {
+//				place.country.flagEmoji.map(Text.init)
+//					.font(.largeTitle)
+				VStack(alignment: .leading) {
+					Text("\(place.name), \(place.country.name) \(place.country.flagEmoji ?? "")")
+						.font(.headline)
+						.lineLimit(2)
+					Text(place.name)
+						.font(.body)
+						.lineLimit(2)
+				}
+				Spacer()
 			}
-			Spacer()
+			.padding(.horizontal)
+			HStack {
+				Button("Set starting point") {
+					firstPlaceTapped(place.id)
+				}
+				Spacer()
+				Button("Delete point") { onDelete(place.id) }
+					.foregroundColor(.red)
+			}
+			.padding(.horizontal)
 		}
 		.padding()
 		.background(Color(.secondarySystemFill))
 		.cornerRadius(16)
 	}
-}
-
-struct PlacePreviewView_Previews: PreviewProvider {
-    static var previews: some View {
-        PlacePreviewView()
-    }
 }

@@ -11,6 +11,7 @@ struct NewTripView: View {
 	
 	@StateObject var viewModel = NewTripViewModel()
 	@State var placeSelection = false
+	
     var body: some View {
 		NavigationView {
 			ZStack {
@@ -25,16 +26,45 @@ struct NewTripView: View {
 						Button("+") { self.placeSelection = true }
 							.font(.largeTitle)
 					}
-					List(viewModel.places, id: \.id) { place in
-						HStack {
-							Text (place.name)
+					VStack(spacing: 0) {
+						if viewModel.places.isEmpty {
 							Spacer()
-							if viewModel.startPlaceId == place.id {
-								Text("🏁")
+							HStack {
+								Spacer()
+								Button("+ Add place to visit") { self.placeSelection = true }
+									.font(.headline)
+								Spacer()
 							}
+						} else {
+							ScrollView {
+								ForEach(viewModel.places, id: \.id) { place in
+									HStack {
+										Text (place.name)
+										Spacer()
+										if viewModel.startPlaceId == place.id {
+											Text("🏁")
+										}
+									}
+									.contentShape(Rectangle())
+									.onTapGesture {
+										withAnimation { viewModel.selectedPlace = place }
+									}
+									.padding()
+									.background(Color(.secondarySystemBackground))
+									.cornerRadius(18)
+								}
+							}
+							.padding(.top)
 						}
+						Spacer()
 					}
-					PlacePreviewView()
+					viewModel.selectedPlace.map { place in
+						PlacePreviewView(
+							place: place,
+							isFirstPlace: place.id == viewModel.startPlaceId,
+							onDelete: viewModel.deletePlace(id:)
+						) { viewModel.startPlaceId = $0 }
+					}
 					Spacer(minLength: 16)
 					Button(action: viewModel.planTrip) {
 						HStack {
@@ -52,7 +82,13 @@ struct NewTripView: View {
 				}.padding([.horizontal, .bottom])
 			}.navigationBarTitle("New Trip")
 			.sheet(isPresented: $placeSelection, content: {
-				PlaceSelectionView(viewModel: PlaceSelectionViewModel(addPlaceCallback: viewModel.addPlace(place:)))
+				PlaceSelectionView(
+					viewModel:
+						PlaceSelectionViewModel(
+							addPlaceCallback: viewModel.addPlace(place:),
+							country: viewModel.places.last?.country
+						)
+				)
 			})
 		}
 		

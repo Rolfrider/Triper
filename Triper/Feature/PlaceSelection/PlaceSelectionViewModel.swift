@@ -120,10 +120,6 @@ class PlaceSelectionViewModel: NSObject, ObservableObject, MKLocalSearchComplete
 	func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
 		self.completions = completer
 			.results
-			.filter {
-				guard let country = country else { return true }
-				return $0.title.contains(country.name) || $0.subtitle.contains(country.name)
-			}
 	}
 }
 

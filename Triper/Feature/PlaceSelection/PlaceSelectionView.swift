@@ -88,6 +88,7 @@ struct PlaceSelectionView: View {
 				.cornerRadius(12)
 				.padding(.horizontal)
 			}
+			.padding(.bottom)
 		}
 		.loadingOverlay(viewModel.isLoading)
 	}
