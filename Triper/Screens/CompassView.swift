@@ -68,11 +68,7 @@ struct CompassView: View {
 										.frame(width: size*0.008, height: size*0.2)
 								}
 								.opacity(0.8)
-	//							Rectangle()
-	//								.fill(Color.primary)
-	//								.frame(width: geo.size.width*0.005, height: geo.size.width*0.2)
-	//								.opacity(0.6)
-									.rotationEffect(Angle.degrees(angels[index]))
+								.rotationEffect(Angle.degrees(angels[index]))
 							}
 							.scaleEffect(.init(0.6))
 						})
@@ -91,7 +87,6 @@ struct CompassView: View {
 struct DirectionPointer: View {
 	let size: CGFloat
 	@State var isRotated: Bool = false
-	@StateObject var viewModel = CompassViewModel()
 	
 	let widthScale: CGFloat = 0.06
 	var body: some View {
@@ -121,8 +116,11 @@ struct DirectionPointer: View {
 				.scaleEffect(.init(widthScale))
 				.shadow(radius: 8)
 		}
-		.rotationEffect(.init(radians: viewModel.rotationAngle))
-		.animation(.easeInOut(duration: 0.3))
+		.rotationEffect(Angle.degrees(isRotated ? 360 : 0))
+		.animation(.easeInOut(duration: 0.8).repeatForever(autoreverses: false))
+		.onAppear(perform: {
+			isRotated = true
+		})
 	}
 }
 
