@@ -36,6 +36,7 @@ class PlaceSelectionViewModel: NSObject, ObservableObject, MKLocalSearchComplete
 	}
 	@Published var searchQuery = ""
 	@Published var completions: [SearchResult] = []
+	@Published var note: String = ""
 	
 	private let id: UUID = UUID()
 	private let completer: MKLocalSearchCompleter
@@ -77,7 +78,8 @@ class PlaceSelectionViewModel: NSObject, ObservableObject, MKLocalSearchComplete
 	
 	func savePlace() {
 		guard let placemark = placemark else { return }
-		let place = Place(name: name, id: id, placemark: placemark)
+		let noteToSave = note.isEmpty ? nil : note
+		let place = Place(name: name, id: id, placemark: placemark, note: noteToSave)
 		addPlaceCallback(place)
 	}
 	

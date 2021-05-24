@@ -11,9 +11,9 @@ import CoreLocation
 struct PlaceSelectionView: View {
 	
 	@Environment(\.presentationMode) var presentationMode
-	@State var showAddress = false
+	@State var showPlaceholder = true
 	@ObservedObject var viewModel: PlaceSelectionViewModel
-	
+
 	var body: some View {
 		VStack {
 			NavigationView {
@@ -38,6 +38,21 @@ struct PlaceSelectionView: View {
 									}
 								}
 							}
+						}
+					}
+					if viewModel.state == .hideSearch {
+						Section(header: Text("Add additional note")) {
+							ZStack {
+								if showPlaceholder {
+									Text("Note for place")
+								}
+								TextEditor(text: $viewModel.note)
+									.frame(height: 140)
+									.onTapGesture {
+										showPlaceholder = false
+									}
+							}
+								
 						}
 					}
 					ViewBuilder.buildIf(

@@ -157,7 +157,6 @@
 			children = (
 				8EA080972610B7D900C85F54 /* UIComponents */,
 				8EDFD37C260239C700C619B5 /* Feature */,
-				8E50CE9E25F3881C00346C08 /* Screens */,
 				8E50CE6B25F3828B00346C08 /* AppDelegate.swift */,
 				8E50CE6D25F3828B00346C08 /* SceneDelegate.swift */,
 				8E50CE6F25F3828B00346C08 /* ContentView.swift */,
@@ -195,15 +194,6 @@
 			path = TriperUITests;
 			sourceTree = "<group>";
 		};
-		8E50CE9E25F3881C00346C08 /* Screens */ = {
-			isa = PBXGroup;
-			children = (
-				8E81229825F3B81F00BE0448 /* CompassView.swift */,
-				8E81229D25F3FC2400BE0448 /* CompasViewModel.swift */,
-			);
-			path = Screens;
-			sourceTree = "<group>";
-		};
 		8E5B2EC4265AD69000D3032A /* Trip */ = {
 			isa = PBXGroup;
 			children = (
@@ -218,6 +208,8 @@
 		8EA080972610B7D900C85F54 /* UIComponents */ = {
 			isa = PBXGroup;
 			children = (
+				8E81229D25F3FC2400BE0448 /* CompasViewModel.swift */,
+				8E81229825F3B81F00BE0448 /* CompassView.swift */,
 				8EA080A02610B94000C85F54 /* PlacesCollection */,
 				8EA080982610B7EE00C85F54 /* PlacePreviewView.swift */,
 				8EA162712659312500857FC2 /* CompassLoading.swift */,
