@@ -12,7 +12,7 @@ struct Place: Equatable, Identifiable, Hashable {
 	let name: String
 	let id: UUID
 	var country: Country
-	let placeMark: CLPlacemark
+	let placemark: CLPlacemark
 }
 
 let countries: [Country] = NSLocale.isoCountryCodes.compactMap {

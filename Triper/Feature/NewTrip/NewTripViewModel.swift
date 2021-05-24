@@ -12,9 +12,14 @@ class NewTripViewModel: ObservableObject {
 	@Published var places: [Place] = []
 	@Published var startPlaceId: UUID?
 	@Published var selectedPlace: Place?
+	@Published var showTrip: Bool = false
 	
 	func planTrip() {
-		
+		showTrip = true
+	}
+	
+	func placesForTrip() -> [Place] {
+		getVisitOrder(places: places)
 	}
 	
 	func addPlace(place: Place) {

@@ -66,18 +66,22 @@ struct NewTripView: View {
 						) { viewModel.startPlaceId = $0 }
 					}
 					Spacer(minLength: 16)
-					Button(action: viewModel.planTrip) {
-						HStack {
-							Spacer()
-							Text("Plan my trip")
-								.font(.headline)
-								.foregroundColor(Color(.label))
-							Image(systemName: "paperplane")
-							Spacer()
+					NavigationLink(
+						destination: TripView(viewModel: .init(placesFactory: viewModel.placesForTrip)),
+						isActive: $viewModel.showTrip) {
+						Button(action: viewModel.planTrip) {
+							HStack {
+								Spacer()
+								Text("Plan my trip")
+									.font(.headline)
+									.foregroundColor(Color(.label))
+								Image(systemName: "paperplane")
+								Spacer()
+							}
+							.padding()
+							.background(Color(.systemFill))
+							.cornerRadius(18)
 						}
-						.padding()
-						.background(Color(.systemFill))
-						.cornerRadius(18)
 					}
 				}.padding([.horizontal, .bottom])
 			}.navigationBarTitle("New Trip")
@@ -95,29 +99,9 @@ struct NewTripView: View {
     }
 }
 
-//struct NewTripView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        NewTripView()
-//    }
-//}
-
-struct PlaceView: View {
-	let name: String
-	let emoji: String
-	
-	var body: some View {
-		HStack {
-			Spacer()
-			Group {
-				Text(emoji)
-				Text(name)
-			}
-			.font(.caption)
-			Spacer()
-			
-		}
-		.padding(.all, 6)
-		.background(Color.gray)
-		.cornerRadius(18)
+extension Array {
+	var isNotEmpty: Bool {
+		self.isEmpty == false
 	}
 }
+

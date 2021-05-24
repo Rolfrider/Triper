@@ -79,7 +79,7 @@ class PlaceSelectionViewModel: NSObject, ObservableObject, MKLocalSearchComplete
 	
 	func savePlace() {
 		guard let country = country, let placemark = placemark else { return }
-		let place = Place(name: name, id: id, country: country, placeMark: placemark)
+		let place = Place(name: name, id: id, country: country, placemark: placemark)
 		addPlaceCallback(place)
 	}
 	

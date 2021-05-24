@@ -17,15 +17,15 @@ func getVisitOrder(places: [Place]) -> [Place] {
 		referencePlace = places.remove(at: 0)
 		result.append(referencePlace)
 	}
-	return places
+	return result
 }
 
 extension Place {
 	func isFirstCloser(firstPlace: Place, secondPlace: Place) -> Bool {
 		guard
-			let location = self.placeMark.location,
-			let loc1 = firstPlace.placeMark.location,
-			let loc2 = secondPlace.placeMark.location
+			let location = self.placemark.location,
+			let loc1 = firstPlace.placemark.location,
+			let loc2 = secondPlace.placemark.location
 		else { fatalError("No location - \(self), \(firstPlace), \(secondPlace)") }
 		return location.distance(from: loc1) < location.distance(from: loc2)
 	}
