@@ -19,7 +19,7 @@ struct PlacePreviewView: View {
 //				place.country.flagEmoji.map(Text.init)
 //					.font(.largeTitle)
 				VStack(alignment: .leading) {
-					Text("\(place.name), \(place.country.name) \(place.country.flagEmoji ?? "")")
+					Text("\(place.name), \(place.placemark.country ?? "") \(place.placemark.isoCountryCode ?? "")")
 						.font(.headline)
 						.lineLimit(2)
 					Text(place.name)

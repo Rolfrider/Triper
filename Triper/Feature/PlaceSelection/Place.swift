@@ -11,7 +11,6 @@ import CoreLocation
 struct Place: Equatable, Identifiable, Hashable {
 	let name: String
 	let id: UUID
-	var country: Country
 	let placemark: CLPlacemark
 }
 

@@ -89,8 +89,7 @@ struct NewTripView: View {
 				PlaceSelectionView(
 					viewModel:
 						PlaceSelectionViewModel(
-							addPlaceCallback: viewModel.addPlace(place:),
-							country: viewModel.places.last?.country
+							addPlaceCallback: viewModel.addPlace(place:)
 						)
 				)
 			})

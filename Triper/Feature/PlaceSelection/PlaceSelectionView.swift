@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 struct PlaceSelectionView: View {
 	
@@ -18,25 +19,12 @@ struct PlaceSelectionView: View {
 			NavigationView {
 				Form {
 					Section {
-						viewModel.country.map {
-							CountryView(country: $0) {
-								withAnimation {
-									viewModel.state = .country
-								}
-								print("country tap")
-							}
-						}
-						if viewModel.country != nil {
-							Button("Place: \(viewModel.name)") {
-								withAnimation {
-									viewModel.state = .place
-								}
-								print("place tap")
-							}
+						Button("Place: \(viewModel.name)") {
+							withAnimation{ viewModel.placeTapped() }
 						}
 					}
 					if viewModel.state != .hideSearch {
-						Section(header: Text(viewModel.state.name)) {
+						Section(header: Text("Find place")) {
 							SearchBar(text: $viewModel.searchQuery)
 							List(viewModel.completions, id: \.title) { completion in
 								Button(action: {
@@ -52,21 +40,11 @@ struct PlaceSelectionView: View {
 							}
 						}
 					}
-					if viewModel.state == .hideSearch {
-						Section(header: Text("Address details")) {
-							let placemark = viewModel.placemark
-							placemark?.administrativeArea.map {
-								Text("Province: \($0)")
-							}
-							placemark?.locality.map {
-								Text("City: \($0)")
-							}
-							placemark?.thoroughfare.map {
-								Text("Street: \($0)")
-							}
-							
-						}
-					}
+					ViewBuilder.buildIf(
+						viewModel.state == .hideSearch ?
+						AddressSection.init(placemark: viewModel.placemark)
+						: nil
+					)
 				}
 				.transition(.opacity)
 				.navigationBarTitle("New Place")
@@ -80,45 +58,37 @@ struct PlaceSelectionView: View {
 					Spacer()
 					Text("Add Place ➕")
 						.font(.headline)
-						.foregroundColor(Color(.label))
+						.foregroundColor(Color(viewModel.placemark == nil ? .label.withAlphaComponent(0.1) : .label))
 					Spacer()
 				}
 				.padding()
-				.background(Color(.systemFill))
+				.background(Color(viewModel.placemark == nil ? .systemFill.withAlphaComponent(0.1) : .systemFill))
 				.cornerRadius(12)
 				.padding(.horizontal)
 			}
+			.disabled(viewModel.placemark == nil)
 			.padding(.bottom)
 		}
 		.loadingOverlay(viewModel.isLoading)
 	}
 }
 
-extension PlaceSelectionViewModel.PlaceSelectionState {
-	var name: String {
-		switch self {
-		case .country: return "Select Country"
-		case .place: return "Find Place"
-		case .hideSearch: return ""
-		}
-	}
-}
-struct CountryView: View {
-	let country: Country
-	let tapCallback: () -> Void
+struct AddressSection: View {
+	let placemark: CLPlacemark?
 	
 	var body: some View {
-		Button(action: tapCallback) {
-			HStack {
-				Text(country.name)
-				Spacer()
-				country.flagEmoji.map(Text.init)
-			}
+		Section(header: Text("Address details")) {
+			Text("Country: \(placemark?.country ?? .emptyData)")
+			Text("Province: \(placemark?.administrativeArea ?? .emptyData)")
+			Text("City: \(placemark?.locality ?? .emptyData)")
+			Text("Street: \(placemark?.thoroughfare ?? .emptyData)")
+			Text("Latitude: \(placemark?.location?.coordinate.latitude ?? 0)")
+			Text("Longitude: \(placemark?.location?.coordinate.longitude ?? 0)")
 		}
 	}
+
 }
-//struct PlaceSelectionView_Previews: PreviewProvider {
-//    static var previews: some View {
-////        PlaceSelectionView()
-//    }
-//}
+
+private extension String {
+	static var emptyData: String { " - " }
+}

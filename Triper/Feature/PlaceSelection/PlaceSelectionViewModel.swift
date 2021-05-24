@@ -14,14 +14,12 @@ import CoreLocation
 class PlaceSelectionViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDelegate {
 	
 	enum PlaceSelectionState {
-		case country
 		case place
 		case hideSearch
 	}
 	
 	@Published var name: String
 	@Published var isLoading: Bool = false
-	@Published var country: Country?
 	var placemark: CLPlacemark? {
 		didSet {
 			objectWillChange.send()
@@ -48,14 +46,12 @@ class PlaceSelectionViewModel: NSObject, ObservableObject, MKLocalSearchComplete
 	init(
 		addPlaceCallback: @escaping (Place) -> Void,
 		name: String = "",
-		country: Country? = nil,
 		placemark: CLPlacemark? = nil
 	) {
 		self.addPlaceCallback = addPlaceCallback
 		self.name = name
-		self.country = country
 		self.placemark = placemark
-		state = country != nil ? .place : .country
+		state = .place
 		completer = .init()
 		geocoder = .init()
 		super.init()
@@ -65,10 +61,12 @@ class PlaceSelectionViewModel: NSObject, ObservableObject, MKLocalSearchComplete
 			.filter { _ in self.state == .place }
 			.assign(to: \.queryFragment, on: self.completer)
 			.store(in: &cancellables)
-		$searchQuery
-			.filter { _ in self.state == .country }
-			.sink(receiveValue: findCountries(string:))
-			.store(in: &cancellables)
+	}
+	
+	func placeTapped() {
+		if placemark != nil {
+			state = .place
+		}
 	}
 	
 	func findCountries(string: String) {
@@ -78,39 +76,28 @@ class PlaceSelectionViewModel: NSObject, ObservableObject, MKLocalSearchComplete
 	}
 	
 	func savePlace() {
-		guard let country = country, let placemark = placemark else { return }
-		let place = Place(name: name, id: id, country: country, placemark: placemark)
+		guard let placemark = placemark else { return }
+		let place = Place(name: name, id: id, placemark: placemark)
 		addPlaceCallback(place)
 	}
 	
 	func searchResultTapped(result: SearchResult) {
-		switch state {
-		case .country:
-			guard let countryResult = result as? CountrySearchResult else { return }
-			self.country = countryResult.country
-			self.state = .place
-			self.name = ""
-			self.placemark = nil
-			self.searchQuery = ""
-			self.completions = []
-		case .place:
-			name = result.title
-			self.state = .hideSearch
-			self.completions = []
-			self.searchQuery = ""
-			Just(result as? MKLocalSearchCompletion)
-				.compactMap { $0 }
-				.map(MKLocalSearch.Request.init(completion:))
-				.flatMap { MKLocalSearch(request: $0).start() }
-				.replaceError(with: nil)
-				.receive(on: RunLoop.main)
-				.handleEvents(receiveCompletion: { _ in DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-					self.isLoading = false
-				} }, receiveRequest: { _ in self.isLoading = true })
-				.assign(to: \.placemark, on: self)
-				.store(in: &cancellables)
-		case .hideSearch: return
-		}
+		name = result.title
+		self.state = .hideSearch
+		self.completions = []
+		self.searchQuery = ""
+		Just(result as? MKLocalSearchCompletion)
+			.compactMap { $0 }
+			.map(MKLocalSearch.Request.init(completion:))
+			.flatMap { MKLocalSearch(request: $0).start() }
+			.replaceError(with: nil)
+			.receive(on: DispatchQueue.main)
+			.print()
+			.handleEvents(receiveCompletion: { _ in DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+				self.isLoading = false
+			} }, receiveRequest: { _ in self.isLoading = true })
+			.assign(to: \.placemark, on: self)
+			.store(in: &cancellables)
 	}
 	
 	func completer(_ completer: MKLocalSearchCompleter, didFailWithError: Error) {
