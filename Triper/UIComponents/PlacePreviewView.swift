@@ -22,9 +22,11 @@ struct PlacePreviewView: View {
 					Text("\(place.name), \(place.placemark.country ?? "") \(place.placemark.isoCountryCode ?? "")")
 						.font(.headline)
 						.lineLimit(2)
-					Text(place.name)
-						.font(.body)
-						.lineLimit(2)
+					place.note.map {
+						Text($0)
+							.font(.body)
+							.lineLimit(2)
+					}
 				}
 				Spacer()
 			}
