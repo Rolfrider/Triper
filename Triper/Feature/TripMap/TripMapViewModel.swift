@@ -10,7 +10,7 @@ import SwiftUI
 import Combine
 import MapKit
 
-class TripViewModel: ObservableObject {
+class TripMapViewModel: ObservableObject {
 	
 	@Published var routes: [MKRoute] = []
 	@Published var annotations: [MKAnnotation] = []

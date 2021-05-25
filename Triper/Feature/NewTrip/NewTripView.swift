@@ -70,7 +70,7 @@ struct NewTripView: View {
 					}
 					Spacer(minLength: 16)
 					NavigationLink(
-						destination: TripView(viewModel: .init(placesFactory: viewModel.placesForTrip)),
+						destination: TripMapView(viewModel: .init(placesFactory: viewModel.placesForTrip)),
 						isActive: $viewModel.showTrip) {
 						Button(action: viewModel.planTrip) {
 							HStack {

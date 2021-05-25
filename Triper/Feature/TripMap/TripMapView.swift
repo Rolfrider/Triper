@@ -8,8 +8,8 @@
 import SwiftUI
 import MapKit
 
-struct TripView: View {
-	@StateObject var viewModel: TripViewModel
+struct TripMapView: View {
+	@StateObject var viewModel: TripMapViewModel
 	
     var body: some View {
 		MapView(annotations: $viewModel.annotations, routes: $viewModel.routes)

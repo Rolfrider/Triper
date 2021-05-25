@@ -19,8 +19,8 @@
 		8E50CE8E25F3829700346C08 /* TriperUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50CE8D25F3829700346C08 /* TriperUITests.swift */; };
 		8E5B2EC1265AC6DF00D3032A /* VistiOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5B2EC0265AC6DF00D3032A /* VistiOrder.swift */; };
 		8E5B2EC3265ACFA100D3032A /* TripPlanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5B2EC2265ACFA100D3032A /* TripPlanner.swift */; };
-		8E5B2EC6265AD6BA00D3032A /* TripViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5B2EC5265AD6BA00D3032A /* TripViewModel.swift */; };
-		8E5B2EC8265AD6D800D3032A /* TripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5B2EC7265AD6D800D3032A /* TripView.swift */; };
+		8E5B2EC6265AD6BA00D3032A /* TripMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5B2EC5265AD6BA00D3032A /* TripMapViewModel.swift */; };
+		8E5B2EC8265AD6D800D3032A /* TripMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5B2EC7265AD6D800D3032A /* TripMapView.swift */; };
 		8E5B2ECA265AD8A700D3032A /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5B2EC9265AD8A700D3032A /* MapView.swift */; };
 		8E81229925F3B81F00BE0448 /* CompassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E81229825F3B81F00BE0448 /* CompassView.swift */; };
 		8E81229E25F3FC2400BE0448 /* CompasViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E81229D25F3FC2400BE0448 /* CompasViewModel.swift */; };
@@ -75,8 +75,8 @@
 		8E50CE8F25F3829700346C08 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E5B2EC0265AC6DF00D3032A /* VistiOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VistiOrder.swift; sourceTree = "<group>"; };
 		8E5B2EC2265ACFA100D3032A /* TripPlanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanner.swift; sourceTree = "<group>"; };
-		8E5B2EC5265AD6BA00D3032A /* TripViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripViewModel.swift; sourceTree = "<group>"; };
-		8E5B2EC7265AD6D800D3032A /* TripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripView.swift; sourceTree = "<group>"; };
+		8E5B2EC5265AD6BA00D3032A /* TripMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripMapViewModel.swift; sourceTree = "<group>"; };
+		8E5B2EC7265AD6D800D3032A /* TripMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripMapView.swift; sourceTree = "<group>"; };
 		8E5B2EC9265AD8A700D3032A /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		8E81229825F3B81F00BE0448 /* CompassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassView.swift; sourceTree = "<group>"; };
 		8E81229D25F3FC2400BE0448 /* CompasViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompasViewModel.swift; sourceTree = "<group>"; };
@@ -194,15 +194,15 @@
 			path = TriperUITests;
 			sourceTree = "<group>";
 		};
-		8E5B2EC4265AD69000D3032A /* Trip */ = {
+		8E5B2EC4265AD69000D3032A /* TripMap */ = {
 			isa = PBXGroup;
 			children = (
-				8E5B2EC5265AD6BA00D3032A /* TripViewModel.swift */,
-				8E5B2EC7265AD6D800D3032A /* TripView.swift */,
+				8E5B2EC5265AD6BA00D3032A /* TripMapViewModel.swift */,
+				8E5B2EC7265AD6D800D3032A /* TripMapView.swift */,
 				8E5B2EC9265AD8A700D3032A /* MapView.swift */,
 				8E5B2EC2265ACFA100D3032A /* TripPlanner.swift */,
 			);
-			path = Trip;
+			path = TripMap;
 			sourceTree = "<group>";
 		};
 		8EA080972610B7D900C85F54 /* UIComponents */ = {
@@ -230,7 +230,7 @@
 		8EDFD37C260239C700C619B5 /* Feature */ = {
 			isa = PBXGroup;
 			children = (
-				8E5B2EC4265AD69000D3032A /* Trip */,
+				8E5B2EC4265AD69000D3032A /* TripMap */,
 				8E2CA7852618F1620009D572 /* PlaceSelection */,
 				8EDFD380260239F000C619B5 /* Trips */,
 				8EDFD37F260239E800C619B5 /* MyTrips */,
@@ -408,10 +408,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8E5B2EC6265AD6BA00D3032A /* TripViewModel.swift in Sources */,
+				8E5B2EC6265AD6BA00D3032A /* TripMapViewModel.swift in Sources */,
 				8EA08093260E98D800C85F54 /* NewTripView.swift in Sources */,
 				8E5B2EC3265ACFA100D3032A /* TripPlanner.swift in Sources */,
-				8E5B2EC8265AD6D800D3032A /* TripView.swift in Sources */,
+				8E5B2EC8265AD6D800D3032A /* TripMapView.swift in Sources */,
 				8E81229E25F3FC2400BE0448 /* CompasViewModel.swift in Sources */,
 				8E8E08922658EF1C00AD0170 /* PlaceSelectionViewModel.swift in Sources */,
 				8E8E087B264EF22F00AD0170 /* NewTripViewModel.swift in Sources */,
