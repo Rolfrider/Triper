@@ -17,11 +17,14 @@ struct NewTripView: View {
 			ZStack {
 				Color(.systemBackground)
 				VStack(alignment: .leading, spacing: 0) {
+					TextField("Trip name", text: $viewModel.name)
+						.font(.largeTitle)
+						.padding(.top)
 					HStack {
 						Text("Places: \(viewModel.places.count)")
 							.font(.largeTitle)
 							.bold()
-							.foregroundColor(Color(.label).opacity(0.6))
+							.foregroundColor(Color(.label))
 						Spacer()
 						Button("+") { self.placeSelection = true }
 							.font(.largeTitle)
@@ -74,17 +77,18 @@ struct NewTripView: View {
 								Spacer()
 								Text("Plan my trip")
 									.font(.headline)
-									.foregroundColor(Color(.label))
+									.foregroundColor(Color(isDisabled ? .label.withAlphaComponent(0.5) : .label))
 								Image(systemName: "paperplane")
 								Spacer()
 							}
+							.disabled(isDisabled)
 							.padding()
-							.background(Color(.systemFill))
+							.background(Color(isDisabled ? .systemFill.withAlphaComponent(0.5) : .systemFill))
 							.cornerRadius(18)
 						}
 					}
 				}.padding([.horizontal, .bottom])
-			}.navigationBarTitle("New Trip")
+			}.navigationBarHidden(true)
 			.sheet(isPresented: $placeSelection, content: {
 				PlaceSelectionView(
 					viewModel:
@@ -96,6 +100,10 @@ struct NewTripView: View {
 		}
 		
     }
+	
+	var isDisabled: Bool {
+		viewModel.places.count < 2
+	}
 }
 
 extension Array {

@@ -13,6 +13,7 @@ class NewTripViewModel: ObservableObject {
 	@Published var startPlaceId: UUID?
 	@Published var selectedPlace: Place?
 	@Published var showTrip: Bool = false
+	@Published var name: String = ""
 	
 	func planTrip() {
 		showTrip = true
