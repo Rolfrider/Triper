@@ -41,20 +41,10 @@ struct NewTripView: View {
 						} else {
 							ScrollView {
 								ForEach(viewModel.places, id: \.id) { place in
-									HStack {
-										Text (place.name)
-										Spacer()
-										if viewModel.startPlaceId == place.id {
-											Text("🏁")
-										}
-									}
-									.contentShape(Rectangle())
+									PlaceListView(place: place, isStartPlace: viewModel.startPlaceId == place.id)
 									.onTapGesture {
 										withAnimation { viewModel.selectedPlace = place }
 									}
-									.padding()
-									.background(Color(.secondarySystemBackground))
-									.cornerRadius(18)
 								}
 							}
 							.padding(.top)

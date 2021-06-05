@@ -12,37 +12,61 @@ struct TripsView: View {
     var body: some View {
 		NavigationView {
 			ScrollView {
-				LazyVStack {
-					NavigationLink(destination: Text("Destination")) {
-						HStack {
-							Spacer()
-							VStack {
-								HStack {
-									Text("Oslo trip")
-										.font(.title)
-										.foregroundColor(Color(.label))
-										.bold()
-										
-									Spacer()
-									LikeButton(isLiked: $isLiked)
-										.buttonStyle(HighPriorityButtonStyle())
-								}
-								TripInfoView(placesCount: 4, estimatedTime: "3:21 h", distance: 30.5)
-							}
-							Spacer()
-						}
-						.padding()
-						.background(Color(.secondarySystemBackground))
-						.cornerRadius(10)
-						.shadow(radius: 5)
-					}.buttonStyle(PlainButtonStyle())
+				LazyVStack(spacing: 12) {
+					ForEach(1..<4) { _ in
+						TripPreviewCell(tripName: "Oslo trip", placesCount: 4, estimatedTime: "3:21 h", distance: 30.5, isLiked: $isLiked)
+					}
 					
 				}.padding()
 			}
 			.navigationBarTitle("Trips")
+			.navigationBarItems(trailing: Toggle(isOn: $isLiked, label: {
+				Image.init(systemName: "heart")
+					.resizable()
+					.scaledToFit()
+					.frame(width: 32, height: 32)
+			}))
 		}
 		
     }
+	
+	struct TripPreviewCell: View {
+		let tripName: String
+		let placesCount: Int
+		let estimatedTime: String
+		let distance: Double
+		@Binding var isLiked: Bool
+		
+		var body: some View {
+			NavigationLink(destination: TripPreviewView()) {
+				HStack {
+					Spacer()
+					VStack {
+						HStack {
+							Text(tripName)
+								.font(.title)
+								.foregroundColor(Color(.label))
+								.bold()
+							
+							Spacer()
+							LikeButton(isLiked: $isLiked)
+								.buttonStyle(HighPriorityButtonStyle())
+						}
+						TripInfoView(
+							placesCount: placesCount,
+							estimatedTime: estimatedTime,
+							distance: distance
+						)
+					}
+					Spacer()
+				}
+				.padding()
+				.background(Color(.secondarySystemBackground))
+				.cornerRadius(10)
+				.shadow(radius: 5)
+			}.buttonStyle(PlainButtonStyle())
+		}
+	}
 }
 
 struct TripsView_Previews: PreviewProvider {
@@ -109,45 +133,6 @@ struct HighPriorityButtonStyle: PrimitiveButtonStyle {
 			return configuration.label
 				.opacity(self.pressed ? 0.5 : 1.0)
 				.highPriorityGesture(gesture)
-		}
-	}
-}
-
-struct TripInfoView: View {
-	let placesCount: Int
-	let estimatedTime: String
-	let distance: Double
-	
-	var body: some View {
-		HStack {
-			TripInfoCell(label: "Places", value: "\(placesCount)")
-			dividerWithSpacers
-			TripInfoCell(label: "Estimated time", value: "\(estimatedTime)")
-			dividerWithSpacers
-			TripInfoCell(label: "Distance", value: "\(distance) km")
-		}
-	}
-	
-	private var dividerWithSpacers: some View {
-		Group {
-			Spacer()
-			Divider()
-			Spacer()
-		}
-	}
-}
-
-struct TripInfoCell: View {
-	let label: String
-	let value: String
-	
-	var body: some View {
-		VStack {
-			Text(label)
-				.font(.callout)
-				.foregroundColor(Color(.label))
-			Text(value)
-				.foregroundColor(Color(.secondaryLabel))
 		}
 	}
 }
