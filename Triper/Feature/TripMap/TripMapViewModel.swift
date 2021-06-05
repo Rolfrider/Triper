@@ -20,7 +20,7 @@ class TripMapViewModel: ObservableObject {
 	var cancellables: Set<AnyCancellable> = .init()
 	private let places: [Place]
 	
-	init(placesFactory: () -> [Place]) {
+	init(placesFactory: () -> [Place], tripName: String) {
 		self.places = placesFactory()
 	}
 	
