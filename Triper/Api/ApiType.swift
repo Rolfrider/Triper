@@ -18,6 +18,15 @@ struct ApiType {
 		let places: [Place]
 	}
 	
+	struct NewTrip: Codable {
+		let deviceUuid: String
+		let name: String
+		let estimatedTime: Double
+		let placesToVisit: Int
+		let distance: Double
+		let places: [Place]
+	}
+	
 	struct TripPreview: Codable {
 		let id: String
 		let name: String
@@ -40,5 +49,36 @@ struct ApiType {
 			let subLocality: String
 			let postalCode: String
 		}
+	}
+}
+
+extension ApiType.Place.Address {
+	init(address: Trip.Place.Address) {
+		country = address.country
+		state = address.state
+		city = address.city
+		street = address.street
+		subLocality = address.subLocality
+		postalCode = address.postalCode
+	}
+}
+
+extension ApiType.Place {
+	init(place: Trip.Place) {
+		name = place.name
+		latitude = place.latitude
+		longitude = place.longitude
+		address = .init(address: place.address)
+	}
+}
+
+extension ApiType.NewTrip {
+	init(deviceUuid: String, trip: Trip) {
+		self.deviceUuid = deviceUuid
+		name = trip.name
+		distance = trip.distance
+		estimatedTime = trip.estimatedTime
+		placesToVisit = trip.placesToVisit
+		places = trip.places.map(ApiType.Place.init(place:))
 	}
 }

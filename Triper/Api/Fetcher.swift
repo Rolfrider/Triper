@@ -35,12 +35,14 @@ func fetchTrip(id: String) -> AnyPublisher<ApiType.Trip, Error> {
 	return fetch(with: request, for: ApiType.Trip.self)
 }
 
-func postTrip(trip: ApiType.Trip) -> AnyPublisher<Void, Error> {
+func postTrip(trip: Trip) -> AnyPublisher<Void, Error> {
 	let url = baseUrl.appendingPathComponent("trips")
 	var request = URLRequest(url: url)
 	request.httpMethod = "POST"
+	request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+	let apiTrip = ApiType.NewTrip(deviceUuid: uuid, trip: trip)
 	return Just(JSONEncoder())
-		.tryMap { try $0.encode(trip) }
+		.tryMap { try $0.encode(apiTrip) }
 		.flatMap { data -> AnyPublisher<Void, Error> in
 			request.httpBody = data
 			return URLSession
