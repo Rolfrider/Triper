@@ -18,7 +18,7 @@ struct TripInfoView: View {
 			dividerWithSpacers
 			TripInfoCell(label: "Estimated time", value: "\(estimatedTime)")
 			dividerWithSpacers
-			TripInfoCell(label: "Distance", value: "\(distance) km")
+			TripInfoCell(label: "Distance", value: String(format: "%.1f km", distance))
 		}
 	}
 	

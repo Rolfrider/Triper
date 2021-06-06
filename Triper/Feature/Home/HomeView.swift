@@ -14,7 +14,7 @@ struct HomeView: View {
 	
 	var body: some View {
 		TabView(selection: $tab) {
-			TripsView()
+			TripsView(viewModel: TripsViewModel())
 				.tabItem {
 					Image(systemName: "list.bullet")
 					Text(Tab.trips.name)

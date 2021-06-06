@@ -13,7 +13,7 @@ struct ApiType {
 		let id: String
 		let name: String
 		let estimatedTime: Double
-		let placesToVisit: Int
+		let numberOfPlaces: Int
 		let distance: Double
 		let places: [Place]
 	}
@@ -22,7 +22,6 @@ struct ApiType {
 		let deviceUuid: String
 		let name: String
 		let estimatedTime: Double
-		let placesToVisit: Int
 		let distance: Double
 		let places: [Place]
 	}
@@ -31,7 +30,7 @@ struct ApiType {
 		let id: String
 		let name: String
 		let estimatedTime: Double
-		let placesToVisit: Int
+		let numberOfPlaces: Int
 		let distance: Double
 	}
 	
@@ -78,7 +77,6 @@ extension ApiType.NewTrip {
 		name = trip.name
 		distance = trip.distance
 		estimatedTime = trip.estimatedTime
-		placesToVisit = trip.placesToVisit
 		places = trip.places.map(ApiType.Place.init(place:))
 	}
 }

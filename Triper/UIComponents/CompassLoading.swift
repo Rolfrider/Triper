@@ -32,6 +32,7 @@ struct LoadingModifier: ViewModifier {
 				Spacer()
 			}
 		}
+		.onTapGesture {}
 	}
 }
 

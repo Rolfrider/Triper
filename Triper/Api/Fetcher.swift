@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import UIKit
 
-private let baseUrlString = "http://triper-server.herokuapp.com"
+private let baseUrlString = "https://triper-server.herokuapp.com"
 
 let baseUrl = URL(string: baseUrlString)!
 let uuid = UIDevice.current.identifierForVendor!.uuidString
@@ -18,6 +18,7 @@ func fetchTrips() -> AnyPublisher<[ApiType.TripPreview], Error> {
 	let url = baseUrl.appendingPathComponent("trips")
 	var request = URLRequest(url: url)
 	request.httpMethod = "GET"
+	request.addValue("*/*", forHTTPHeaderField: "Accept")
 	return fetch(with: request, for: [ApiType.TripPreview].self)
 }
 
@@ -25,6 +26,7 @@ func fetchMyTrips() -> AnyPublisher<[ApiType.TripPreview], Error> {
 	let url = baseUrl.appendingPathComponent("trips").appending([.init(name: "deviceUuid", value: uuid)])!
 	var request = URLRequest(url: url)
 	request.httpMethod = "GET"
+	request.addValue("*/*", forHTTPHeaderField: "Accept")
 	return fetch(with: request, for: [ApiType.TripPreview].self)
 }
 
@@ -32,6 +34,7 @@ func fetchTrip(id: String) -> AnyPublisher<ApiType.Trip, Error> {
 	let url = baseUrl.appendingPathComponent("trips").appendingPathComponent(id)
 	var request = URLRequest(url: url)
 	request.httpMethod = "GET"
+	request.addValue("*/*", forHTTPHeaderField: "Accept")
 	return fetch(with: request, for: ApiType.Trip.self)
 }
 

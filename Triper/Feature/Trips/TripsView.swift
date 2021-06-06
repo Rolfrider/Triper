@@ -8,17 +8,20 @@
 import SwiftUI
 
 struct TripsView: View {
+	@StateObject var viewModel: TripsViewModel
 	@State var isLiked: Bool = false
     var body: some View {
 		NavigationView {
 			ScrollView {
 				LazyVStack(spacing: 12) {
-					ForEach(1..<4) { _ in
-						TripPreviewCell(tripName: "Oslo trip", placesCount: 4, estimatedTime: "3:21 h", distance: 30.5, isLiked: $isLiked)
+					ForEach(viewModel.trips, id: \.id) { trip in
+						TripPreviewCell(tripName: trip.name, placesCount: trip.numberOfPlaces, estimatedTime: trip.estimatedTime.stringFromTimeInterval(), distance: trip.distance/1000, isLiked: $isLiked)
 					}
 					
 				}.padding()
 			}
+			.onAppear { viewModel.loadTrips() }
+			.loadingOverlay(viewModel.isLoading)
 			.navigationBarTitle("Trips")
 			.navigationBarItems(trailing: Toggle(isOn: $isLiked, label: {
 				Image.init(systemName: "heart")
@@ -71,7 +74,7 @@ struct TripsView: View {
 
 struct TripsView_Previews: PreviewProvider {
     static var previews: some View {
-        TripsView()
+        TripsView(viewModel: TripsViewModel())
     }
 }
 
@@ -134,5 +137,19 @@ struct HighPriorityButtonStyle: PrimitiveButtonStyle {
 				.opacity(self.pressed ? 0.5 : 1.0)
 				.highPriorityGesture(gesture)
 		}
+	}
+}
+
+extension Double {
+	
+	func stringFromTimeInterval() -> String {
+		
+		let time = NSInteger(self)
+		
+		let minutes = (time / 60) % 60
+		let hours = (time / 3600)
+		
+		return String(format: "%0.2d:%0.2d h",hours,minutes)
+		
 	}
 }
