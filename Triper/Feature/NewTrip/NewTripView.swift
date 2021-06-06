@@ -52,7 +52,7 @@ struct NewTripView: View {
 						Spacer()
 					}
 					viewModel.selectedPlace.map { place in
-						PlacePreviewView(
+						PlacePreviewActionView(
 							place: place,
 							isFirstPlace: place.id == viewModel.startPlaceId,
 							onDelete: viewModel.deletePlace(id:)

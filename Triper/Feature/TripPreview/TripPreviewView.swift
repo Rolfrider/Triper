@@ -8,29 +8,31 @@
 import SwiftUI
 
 struct TripPreviewView: View {
+	
+	@StateObject var viewModel: TripPreviewViewModel
+	@State var showTrip = false
+	
     var body: some View {
 			ZStack {
 				Color(.systemBackground)
 				VStack(alignment: .leading, spacing: 0) {
-					Text("Trip name")
-						.font(.largeTitle)
-						.padding(.top)
-					Text("Places: 2")
+					Text("Places: \(viewModel.places.count)")
 						.font(.largeTitle)
 						.bold()
 						.foregroundColor(Color(.label))
 					VStack(spacing: 0) {
 						ScrollView {
-							Text("s")
+							ForEach(viewModel.places, id: \.id) { place in
+								PlacePreviewView(place: place)
+							}
 						}
 						.padding(.top)
 						Spacer()
 					}
-					Spacer(minLength: 16)
 					NavigationLink(
-						destination: Text(""),
-						isActive: .constant(false)) {
-						Button(action: {}) {
+						destination: TripMapView(viewModel: .init(placesFactory: viewModel.placesForTrip, tripName: viewModel.name)),
+						isActive: $showTrip) {
+						Button(action: { showTrip.toggle() }) {
 							HStack {
 								Spacer()
 								Text("Show trip plan")
@@ -45,13 +47,12 @@ struct TripPreviewView: View {
 						}
 					}
 				}.padding([.horizontal, .bottom])
-			}.navigationBarTitle("Trip name")
+				.onAppear { viewModel.loadTrip() }
+			}.navigationBarTitle(viewModel.name)
+			.loadingOverlay(viewModel.isLoading)
+			.alert(item: $viewModel.errorMsg) {
+				.init(title: Text($0), primaryButton: .default(Text("OK")), secondaryButton: .default(Text("Retry"), action: { viewModel.loadTrip() }))
+			}
 //			.navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-struct TripPreviewView_Previews: PreviewProvider {
-    static var previews: some View {
-        TripPreviewView()
     }
 }

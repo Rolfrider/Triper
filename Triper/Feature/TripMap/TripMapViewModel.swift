@@ -21,9 +21,10 @@ class TripMapViewModel: ObservableObject {
 	let tripName: String
 	var wasAdded: Bool = false
 	
-	init(placesFactory: () -> [Place], tripName: String) {
+	init(placesFactory: () -> [Place], tripName: String, wasAdded: Bool = false) {
 		self.places = placesFactory()
 		self.tripName = tripName
+		self.wasAdded = wasAdded
 	}
 	
 	

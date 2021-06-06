@@ -14,7 +14,7 @@ struct TripsView: View {
 			ScrollView {
 				LazyVStack(spacing: 12) {
 					ForEach(viewModel.trips, id: \.id) { trip in
-						TripPreviewCell(tripName: trip.name, placesCount: trip.numberOfPlaces, estimatedTime: trip.estimatedTime.stringFromTimeInterval(), distance: trip.distance/1000, isLiked: isLikedBinding(for: trip.id))
+						TripPreviewCell(tripName: trip.name, tripId: trip.id, placesCount: trip.numberOfPlaces, estimatedTime: trip.estimatedTime.stringFromTimeInterval(), distance: trip.distance/1000, isLiked: isLikedBinding(for: trip.id))
 					}
 					
 				}.padding()
@@ -42,13 +42,14 @@ struct TripsView: View {
 	
 	struct TripPreviewCell: View {
 		let tripName: String
+		let tripId: String
 		let placesCount: Int
 		let estimatedTime: String
 		let distance: Double
 		@Binding var isLiked: Bool
 		
 		var body: some View {
-			NavigationLink(destination: TripPreviewView()) {
+			NavigationLink(destination: TripPreviewView(viewModel: .init(id: tripId))) {
 				HStack {
 					Spacer()
 					VStack {

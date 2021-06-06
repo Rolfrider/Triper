@@ -13,7 +13,6 @@ struct ApiType {
 		let id: String
 		let name: String
 		let estimatedTime: Double
-		let numberOfPlaces: Int
 		let distance: Double
 		let places: [Place]
 	}
@@ -36,6 +35,7 @@ struct ApiType {
 	
 	struct Place: Codable {
 		let name: String
+		let note: String
 		let latitude: Double
 		let longitude: Double
 		let address: Address
@@ -68,6 +68,7 @@ extension ApiType.Place {
 		latitude = place.latitude
 		longitude = place.longitude
 		address = .init(address: place.address)
+		note = place.note
 	}
 }
 

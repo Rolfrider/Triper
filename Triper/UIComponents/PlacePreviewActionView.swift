@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PlacePreviewView: View {
+struct PlacePreviewActionView: View {
 	let place: Place
 	let isFirstPlace: Bool
 	let onDelete: (UUID) -> ()
@@ -44,5 +44,30 @@ struct PlacePreviewView: View {
 		.padding()
 		.background(Color(.secondarySystemFill))
 		.cornerRadius(16)
+	}
+}
+
+
+struct PlacePreviewView: View {
+	let place: Place
+	
+	var body: some View {
+		HStack {
+			VStack(alignment: .leading) {
+				Text("\(place.name), \(place.placemark.administrativeArea ?? ""), \(place.placemark.country ?? ""), \(place.placemark.isoCountryCode ?? "")")
+					.font(.headline)
+					.lineLimit(2)
+				place.note.map {
+					Text($0)
+						.font(.body)
+						.lineLimit(2)
+				}
+			}
+			Spacer()
+		}
+		.padding()
+		.background(Color(.secondarySystemFill))
+		.cornerRadius(16)
+		
 	}
 }

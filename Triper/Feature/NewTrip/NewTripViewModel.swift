@@ -20,7 +20,12 @@ class NewTripViewModel: ObservableObject {
 	}
 	
 	func placesForTrip() -> [Place] {
-		getVisitOrder(places: places)
+		var placesToCalc = places
+		if let firstIndex = placesToCalc.firstIndex(where: { $0.id == startPlaceId }) {
+			let place = placesToCalc.remove(at: firstIndex)
+			placesToCalc.insert(place, at: 0)
+		}
+		return getVisitOrder(places: placesToCalc)
 	}
 	
 	func addPlace(place: Place) {
