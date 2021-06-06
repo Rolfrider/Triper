@@ -28,6 +28,7 @@ struct PlaceSelectionView: View {
 							SearchBar(text: $viewModel.searchQuery)
 							List(viewModel.completions, id: \.title) { completion in
 								Button(action: {
+									UIApplication.shared.endEditing()
 									withAnimation { viewModel.searchResultTapped(result: completion) }
 								}) {
 									VStack(alignment: .leading) {
@@ -106,4 +107,10 @@ struct AddressSection: View {
 
 private extension String {
 	static var emptyData: String { " - " }
+}
+
+extension UIApplication {
+	func endEditing() {
+		sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+	}
 }

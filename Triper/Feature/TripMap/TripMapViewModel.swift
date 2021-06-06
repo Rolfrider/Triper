@@ -49,7 +49,7 @@ class TripMapViewModel: ObservableObject {
 				)
 				.receive(on: DispatchQueue.main)
 				.catch { error -> Empty<Void, Never>in
-					self.errorMsg = "Request failed, reason: \(error)"
+					self.errorMsg = "Couldn't save trip, reason: \(error)"
 					return Empty<Void, Never>(completeImmediately: true)
 				}
 			}
