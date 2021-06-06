@@ -9,29 +9,36 @@ import SwiftUI
 
 struct TripsView: View {
 	@StateObject var viewModel: TripsViewModel
-	@State var isLiked: Bool = false
     var body: some View {
 		NavigationView {
 			ScrollView {
 				LazyVStack(spacing: 12) {
 					ForEach(viewModel.trips, id: \.id) { trip in
-						TripPreviewCell(tripName: trip.name, placesCount: trip.numberOfPlaces, estimatedTime: trip.estimatedTime.stringFromTimeInterval(), distance: trip.distance/1000, isLiked: $isLiked)
+						TripPreviewCell(tripName: trip.name, placesCount: trip.numberOfPlaces, estimatedTime: trip.estimatedTime.stringFromTimeInterval(), distance: trip.distance/1000, isLiked: isLikedBinding(for: trip.id))
 					}
 					
 				}.padding()
 			}
 			.onAppear { viewModel.loadTrips() }
-			.loadingOverlay(viewModel.isLoading)
+			
 			.navigationBarTitle("Trips")
-			.navigationBarItems(trailing: Toggle(isOn: $isLiked, label: {
-				Image.init(systemName: "heart")
-					.resizable()
-					.scaledToFit()
-					.frame(width: 32, height: 32)
+			.navigationBarItems(trailing: Toggle(isOn: $viewModel.showOnlyLiked.animation(), label: {
+				LikeButton(isLiked: $viewModel.showOnlyLiked).disabled(true)
 			}))
+			.alert(item: $viewModel.errorMsg) {
+				.init(title: Text($0), primaryButton: .default(Text("OK")), secondaryButton: .default(Text("Retry"), action: { viewModel.loadTrips() }))
+			}
 		}
+		.loadingOverlay(viewModel.isLoading)
 		
     }
+	
+	func isLikedBinding(for id: String) -> Binding<Bool> {
+		.init(
+			get: { viewModel.likedIds.contains(id) },
+			set: { _ in viewModel.likeTapped(id: id) }
+		)
+	}
 	
 	struct TripPreviewCell: View {
 		let tripName: String

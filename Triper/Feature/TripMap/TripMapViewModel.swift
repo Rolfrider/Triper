@@ -19,6 +19,7 @@ class TripMapViewModel: ObservableObject {
 	var cancellables: Set<AnyCancellable> = .init()
 	private let places: [Place]
 	let tripName: String
+	var wasAdded: Bool = false
 	
 	init(placesFactory: () -> [Place], tripName: String) {
 		self.places = placesFactory()
@@ -36,29 +37,33 @@ class TripMapViewModel: ObservableObject {
 			}
 			.eraseToAnyPublisher()
 		
-		tripPublisher
-			.flatMap { routes in
-				postTrip(
-					trip: .init(
-						name: self.tripName,
-						estimatedTime: routes.map(\.expectedTravelTime).reduce(0, +),
-						placesToVisit: self.places.count,
-						distance: routes.map(\.distance).reduce(0, +),
-						places: self.places.map(Trip.Place.init(place:))
+		if wasAdded == false {
+			tripPublisher
+				.flatMap { routes in
+					postTrip(
+						trip: .init(
+							name: self.tripName,
+							estimatedTime: routes.map(\.expectedTravelTime).reduce(0, +),
+							placesToVisit: self.places.count,
+							distance: routes.map(\.distance).reduce(0, +),
+							places: self.places.map(Trip.Place.init(place:))
+						)
 					)
-				)
-				.receive(on: DispatchQueue.main)
-				.catch { error -> Empty<Void, Never>in
-					self.errorMsg = "Couldn't save trip, reason: \(error)"
-					return Empty<Void, Never>(completeImmediately: true)
+					.receive(on: DispatchQueue.main)
+					.catch { error -> Empty<Void, Never>in
+						self.errorMsg = "Couldn't save trip, reason: \(error)"
+						return Empty<Void, Never>(completeImmediately: true)
+					}
 				}
-			}
-			.receive(on: DispatchQueue.main)
-			.handleEvents(
-				receiveRequest: { _ in self.isLoading = true }
-			)
-			.sink(receiveCompletion: { _ in DispatchQueue.main.asyncAfter(deadline: .now() + 1) { self.isLoading = false } } , receiveValue: {})
-			.store(in: &cancellables)
+				.receive(on: DispatchQueue.main)
+				.handleEvents(
+					receiveRequest: { _ in self.isLoading = true }
+				)
+				.sink(receiveCompletion: { _ in DispatchQueue.main.asyncAfter(deadline: .now() + 1) { self.isLoading = false }
+					self.wasAdded = true
+				} , receiveValue: {})
+				.store(in: &cancellables)
+		}
 		
 		tripPublisher
 			.receive(on: DispatchQueue.main)
