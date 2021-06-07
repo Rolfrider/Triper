@@ -36,6 +36,9 @@ class TripMapViewModel: ObservableObject {
 				self.errorMsg = "Couldn't find route for trip, reason: \(error)"
 				return Empty<[MKRoute], Never>(completeImmediately: true)
 			}
+			.handleEvents(
+				receiveRequest: { _ in self.isLoading = true }
+			)
 			.eraseToAnyPublisher()
 		
 		if wasAdded == false {
@@ -57,16 +60,15 @@ class TripMapViewModel: ObservableObject {
 					}
 				}
 				.receive(on: DispatchQueue.main)
-				.handleEvents(
-					receiveRequest: { _ in self.isLoading = true }
-				)
-				.sink(receiveCompletion: { _ in DispatchQueue.main.asyncAfter(deadline: .now() + 1) { self.isLoading = false }
+				.sink(receiveCompletion: { _ in DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { self.isLoading = false }
 					self.wasAdded = true
 				} , receiveValue: {})
 				.store(in: &cancellables)
 		}
 		
 		tripPublisher
+			.handleEvents(receiveCompletion: { _ in DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { self.isLoading = false }
+			})
 			.receive(on: DispatchQueue.main)
 			.assign(to: \.routes, on: self)
 			.store(in: &cancellables)

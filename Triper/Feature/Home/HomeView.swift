@@ -26,7 +26,7 @@ struct HomeView: View {
 					Text(Tab.newTrip.name)
 				}
 				.tag(Tab.newTrip)
-			MyTripsView()
+			MyTripsView(viewModel: .init())
 				.tabItem {
 					Image(systemName: "heart")
 					Text(Tab.myTrips.name)

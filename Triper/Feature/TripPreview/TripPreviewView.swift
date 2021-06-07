@@ -30,7 +30,7 @@ struct TripPreviewView: View {
 						Spacer()
 					}
 					NavigationLink(
-						destination: TripMapView(viewModel: .init(placesFactory: viewModel.placesForTrip, tripName: viewModel.name)),
+						destination: TripMapView(viewModel: .init(placesFactory: viewModel.placesForTrip, tripName: viewModel.name, wasAdded: true)),
 						isActive: $showTrip) {
 						Button(action: { showTrip.toggle() }) {
 							HStack {

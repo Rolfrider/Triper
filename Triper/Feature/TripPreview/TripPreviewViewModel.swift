@@ -38,7 +38,7 @@ class TripPreviewViewModel: ObservableObject {
 			.receive(on: DispatchQueue.main)
 			.handleEvents(
 				receiveCompletion: { _ in
-					DispatchQueue.main.asyncAfter(deadline: .now() + 1) { self.isLoading = false }
+					DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { self.isLoading = false }
 				},
 				receiveRequest: { _ in self.isLoading = true }
 			)

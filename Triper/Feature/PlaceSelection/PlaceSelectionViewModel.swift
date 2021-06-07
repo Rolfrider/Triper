@@ -95,7 +95,7 @@ class PlaceSelectionViewModel: NSObject, ObservableObject, MKLocalSearchComplete
 			.replaceError(with: nil)
 			.receive(on: DispatchQueue.main)
 			.print()
-			.handleEvents(receiveCompletion: { _ in DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+			.handleEvents(receiveCompletion: { _ in DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
 				self.isLoading = false
 			} }, receiveRequest: { _ in self.isLoading = true })
 			.assign(to: \.placemark, on: self)
