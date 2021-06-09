@@ -26,7 +26,7 @@ class TripMapViewModel: ObservableObject {
 	
 	init(placesFactory: () -> [Place], tripName: String, wasAdded: Bool = false) {
 		self.places = placesFactory()
-		self.tripName = tripName.isEmpty ? "Trip \(places.first?.name)" : tripName
+		self.tripName = tripName.isEmpty ? "Trip \(places.first?.name ?? "")" : tripName
 		self.wasAdded = wasAdded
 		self.selectedPlace = (1, places[0])
 	}
@@ -102,6 +102,23 @@ class TripMapViewModel: ObservableObject {
 			.receive(on: DispatchQueue.main)
 			.assign(to: \.distance, on: self)
 			.store(in: &cancellables)
+	}
+	
+	func openInAppleMaps() {
+		let mapItem = MKMapItem(placemark: .init(placemark: selectedPlace.1.placemark))
+		mapItem.name = selectedPlace.1.name
+		mapItem.openInMaps(launchOptions: [
+			MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving
+		])
+	}
+	
+	func openInGoogleMaps() {
+		guard let coordinate = selectedPlace.1.placemark.location?.coordinate else {
+			errorMsg = "Can't show directions on Google Maps"
+			return
+		}
+		let url = URL(string: "comgooglemaps://?daddr=\(coordinate.latitude),\(coordinate.longitude)&directionsmode=driving&zoom=14&views=traffic")!
+		UIApplication.shared.open(url, options: [:], completionHandler: nil)
 	}
 	
 }

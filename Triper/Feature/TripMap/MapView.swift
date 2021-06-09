@@ -22,13 +22,12 @@ struct MapView: UIViewRepresentable {
 	func updateUIView(_ uiView: MKMapView, context: Context) {
 		uiView.addOverlays(routes.map(\.polyline))
 		uiView.addAnnotations(annotations)
-		uiView.selectedAnnotations = [selectedAnnotation]
 		guard let visibleRect = routes.first?.polyline.boundingMapRect else {
 			return
 		}
 		uiView.setVisibleMapRect(
 			routes.map(\.polyline.boundingMapRect).reduce(visibleRect) { $0.union($1) },
-			edgePadding: .init(top: 8, left: 16, bottom: 8, right: 16),
+			edgePadding: .init(top: 8, left: 16, bottom: 166, right: 16),
 			animated: true
 		)
 	}

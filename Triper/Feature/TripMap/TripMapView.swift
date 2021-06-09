@@ -11,6 +11,7 @@ import MapKit
 struct TripMapView: View {
 	@StateObject var viewModel: TripMapViewModel
 	@State var isTripInfoHidden: Bool = false
+	@State var directionsSheet: Bool = false
     var body: some View {
 		ZStack {
 			MapView(annotations: $viewModel.annotations, routes: $viewModel.routes, selectedAnnotation: selectedAnnotationBinding)
@@ -26,6 +27,7 @@ struct TripMapView: View {
 					Text("\(viewModel.selectedPlace.0). \(viewModel.selectedPlace.1.name)")
 						.font(.callout)
 						.padding()
+					Button("Show directions") { directionsSheet.toggle() }
 					Divider().padding(.horizontal)
 					TripInfoView(placesCount: viewModel.annotations.count, estimatedTime: viewModel.estimatedTime.stringFromTimeInterval(), distance: viewModel.distance/1000)
 						.padding()
@@ -34,12 +36,20 @@ struct TripMapView: View {
 				.cornerRadius(12)
 				.padding()
 			}
-			.offset(x: 0, y: isTripInfoHidden ? 100 : 0)
+			.shadow(radius: 4)
+			.offset(x: 0, y: isTripInfoHidden ? 140 : 0)
 			.onTapGesture {
 				withAnimation {
 					isTripInfoHidden.toggle()
 				}
 			}
+		}
+		.actionSheet(isPresented: $directionsSheet) {
+			.init(title: Text("Select Map App"), buttons: [
+				.default(Text("Google Maps")) { viewModel.openInGoogleMaps() },
+				.default(Text("Apple Maps")) { viewModel.openInAppleMaps() },
+				.cancel()
+			])
 		}
 //		.navigationBarTitleDisplayMode(.inline)
     }
