@@ -18,6 +18,7 @@ class TripMapViewModel: ObservableObject {
 	@Published var errorMsg: String?
 	@Published var estimatedTime: Double = 0
 	@Published var distance: Double = 0
+	@Published var selectedPlace: (Int, Place)
 	var cancellables: Set<AnyCancellable> = .init()
 	private let places: [Place]
 	let tripName: String
@@ -25,8 +26,18 @@ class TripMapViewModel: ObservableObject {
 	
 	init(placesFactory: () -> [Place], tripName: String, wasAdded: Bool = false) {
 		self.places = placesFactory()
-		self.tripName = tripName
+		self.tripName = tripName.isEmpty ? "Trip \(places.first?.name)" : tripName
 		self.wasAdded = wasAdded
+		self.selectedPlace = (1, places[0])
+	}
+	
+	func annotationSelected(annotation: MKAnnotation) {
+		if let (index, place) = places.enumerated().filter({ _ ,place in
+			place.placemark.location?.coordinate.latitude == annotation.coordinate.latitude
+				&& place.placemark.location?.coordinate.longitude == annotation.coordinate.longitude
+		}).first {
+			selectedPlace = (index + 1, place)
+		}
 	}
 	
 	
