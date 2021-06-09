@@ -16,6 +16,9 @@ class TripMapViewModel: ObservableObject {
 	@Published var annotations: [MKAnnotation] = []
 	@Published var isLoading: Bool = false
 	@Published var errorMsg: String?
+	@Published var estimatedTime: Double = 0
+	@Published var distance: Double = 0
+	@Published var selectedPlace: (Int, Place)
 	var cancellables: Set<AnyCancellable> = .init()
 	private let places: [Place]
 	let tripName: String
@@ -23,8 +26,18 @@ class TripMapViewModel: ObservableObject {
 	
 	init(placesFactory: () -> [Place], tripName: String, wasAdded: Bool = false) {
 		self.places = placesFactory()
-		self.tripName = tripName
+		self.tripName = tripName.isEmpty ? "Trip \(places.first?.name ?? "")" : tripName
 		self.wasAdded = wasAdded
+		self.selectedPlace = (1, places[0])
+	}
+	
+	func annotationSelected(annotation: MKAnnotation) {
+		if let (index, place) = places.enumerated().filter({ _ ,place in
+			place.placemark.location?.coordinate.latitude == annotation.coordinate.latitude
+				&& place.placemark.location?.coordinate.longitude == annotation.coordinate.longitude
+		}).first {
+			selectedPlace = (index + 1, place)
+		}
 	}
 	
 	
@@ -72,6 +85,40 @@ class TripMapViewModel: ObservableObject {
 			.receive(on: DispatchQueue.main)
 			.assign(to: \.routes, on: self)
 			.store(in: &cancellables)
+		
+		tripPublisher
+			.handleEvents(receiveCompletion: { _ in DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { self.isLoading = false }
+			})
+			.map { $0.map(\.expectedTravelTime).reduce(0, +)
+			}
+			.receive(on: DispatchQueue.main)
+			.assign(to: \.estimatedTime, on: self)
+			.store(in: &cancellables)
+		
+		tripPublisher
+			.handleEvents(receiveCompletion: { _ in DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { self.isLoading = false }
+			})
+			.map { $0.map(\.distance).reduce(0, +) }
+			.receive(on: DispatchQueue.main)
+			.assign(to: \.distance, on: self)
+			.store(in: &cancellables)
+	}
+	
+	func openInAppleMaps() {
+		let mapItem = MKMapItem(placemark: .init(placemark: selectedPlace.1.placemark))
+		mapItem.name = selectedPlace.1.name
+		mapItem.openInMaps(launchOptions: [
+			MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving
+		])
+	}
+	
+	func openInGoogleMaps() {
+		guard let coordinate = selectedPlace.1.placemark.location?.coordinate else {
+			errorMsg = "Can't show directions on Google Maps"
+			return
+		}
+		let url = URL(string: "comgooglemaps://?daddr=\(coordinate.latitude),\(coordinate.longitude)&directionsmode=driving&zoom=14&views=traffic")!
+		UIApplication.shared.open(url, options: [:], completionHandler: nil)
 	}
 	
 }

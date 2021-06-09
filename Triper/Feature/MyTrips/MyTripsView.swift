@@ -17,7 +17,6 @@ struct MyTripsView: View {
 					ForEach(viewModel.trips, id: \.id) { trip in
 						TripPreviewCell(tripName: trip.name, tripId: trip.id, placesCount: trip.numberOfPlaces, estimatedTime: trip.estimatedTime.stringFromTimeInterval(), distance: trip.distance/1000)
 					}
-					
 				}.padding()
 			}
 			.onAppear { viewModel.loadTrips() }
