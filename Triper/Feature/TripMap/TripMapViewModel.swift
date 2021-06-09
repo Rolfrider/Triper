@@ -16,6 +16,8 @@ class TripMapViewModel: ObservableObject {
 	@Published var annotations: [MKAnnotation] = []
 	@Published var isLoading: Bool = false
 	@Published var errorMsg: String?
+	@Published var estimatedTime: Double = 0
+	@Published var distance: Double = 0
 	var cancellables: Set<AnyCancellable> = .init()
 	private let places: [Place]
 	let tripName: String
@@ -71,6 +73,23 @@ class TripMapViewModel: ObservableObject {
 			})
 			.receive(on: DispatchQueue.main)
 			.assign(to: \.routes, on: self)
+			.store(in: &cancellables)
+		
+		tripPublisher
+			.handleEvents(receiveCompletion: { _ in DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { self.isLoading = false }
+			})
+			.map { $0.map(\.expectedTravelTime).reduce(0, +)
+			}
+			.receive(on: DispatchQueue.main)
+			.assign(to: \.estimatedTime, on: self)
+			.store(in: &cancellables)
+		
+		tripPublisher
+			.handleEvents(receiveCompletion: { _ in DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { self.isLoading = false }
+			})
+			.map { $0.map(\.distance).reduce(0, +) }
+			.receive(on: DispatchQueue.main)
+			.assign(to: \.distance, on: self)
 			.store(in: &cancellables)
 	}
 	
