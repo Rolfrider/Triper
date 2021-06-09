@@ -20,7 +20,6 @@ struct TripMapView: View {
 				}
 				.edgesIgnoringSafeArea(.all)
 				.onAppear(perform: viewModel.calcTrip)
-				.loadingOverlay(viewModel.isLoading)
 			VStack {
 				Spacer().layoutPriority(1)
 				VStack {
@@ -51,6 +50,7 @@ struct TripMapView: View {
 				.cancel()
 			])
 		}
+		.loadingOverlay(viewModel.isLoading)
 //		.navigationBarTitleDisplayMode(.inline)
     }
 	
