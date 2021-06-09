@@ -51,7 +51,6 @@ struct TripMapView: View {
 			])
 		}
 		.loadingOverlay(viewModel.isLoading)
-//		.navigationBarTitleDisplayMode(.inline)
     }
 	
 	var selectedAnnotationBinding: Binding<MKAnnotation> {
